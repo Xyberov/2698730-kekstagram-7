@@ -27,4 +27,8 @@ const DESCRIPTIONS = [
   'Вид из окна в дождливый день',
 ];
 
-export {NAMES, MESSAGES, DESCRIPTIONS};
+const getNames = () => [...NAMES];
+const getMessages = () => [...MESSAGES];
+const getDescriptions = () => [...DESCRIPTIONS];
+
+export {getNames, getMessages, getDescriptions};
