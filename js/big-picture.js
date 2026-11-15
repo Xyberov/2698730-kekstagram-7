@@ -1,4 +1,12 @@
 const bigPicture = document.querySelector('.big-picture');
+const commentCountBlock = bigPicture.querySelector('.social__comment-count');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentsList = bigPicture.querySelector('.social__comments');
+
+const COMMENTS_STEP = 5;
+
+let currentComments = [];
+let shownCommentsCount = 0;
 
 const createComment = (comment) => {
   const commentElement = document.createElement('li');
@@ -20,11 +28,31 @@ const createComment = (comment) => {
   return commentElement;
 };
 
+const renderNextComments = () => {
+  const nextComments = currentComments.slice(shownCommentsCount, shownCommentsCount + COMMENTS_STEP);
+  const fragment = document.createDocumentFragment();
+
+  nextComments.forEach((comment) => {
+    fragment.append(createComment(comment));
+  });
+
+  commentsList.append(fragment);
+
+  shownCommentsCount += nextComments.length;
+  commentCountBlock.firstChild.textContent = `${shownCommentsCount} из `;
+
+  commentsLoader.classList.toggle('hidden', shownCommentsCount >= currentComments.length);
+};
+
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
+
+commentsLoader.addEventListener('click', () => {
+  renderNextComments();
+});
 
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
@@ -39,8 +67,6 @@ bigPicture.querySelector('.big-picture__cancel').addEventListener('click', () =>
 
 const openBigPicture = (picture) => {
   bigPicture.classList.remove('hidden');
-  bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-  bigPicture.querySelector('.comments-loader').classList.add('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 
@@ -49,15 +75,11 @@ const openBigPicture = (picture) => {
   bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
   bigPicture.querySelector('.social__caption').textContent = picture.description;
 
-  const commentsList = bigPicture.querySelector('.social__comments');
   commentsList.innerHTML = '';
-  const fragment = document.createDocumentFragment();
 
-  picture.comments.forEach((comment) => {
-    fragment.append(createComment(comment));
-  });
-
-  commentsList.append(fragment);
+  currentComments = picture.comments;
+  shownCommentsCount = 0;
+  renderNextComments();
 };
 
 export {openBigPicture};
