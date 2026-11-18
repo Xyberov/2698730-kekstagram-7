@@ -1,3 +1,5 @@
+import {openBigPicture} from './big-picture.js';
+
 const picturesContainer = document.querySelector('.pictures');
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -10,6 +12,11 @@ const createPicture = (picture) => {
   pictureImage.alt = picture.description;
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+
+  pictureElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    openBigPicture(picture);
+  });
 
   return pictureElement;
 };
