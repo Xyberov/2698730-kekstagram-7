@@ -1,5 +1,7 @@
 import {createPhoto} from './create-photo.js';
 import {renderPictures} from './pictures.js';
 
-const photos = Array.from({length: 25}, createPhoto);
+const PHOTOS_COUNT = 25;
+
+const photos = Array.from({length: PHOTOS_COUNT}, createPhoto);
 renderPictures(photos);

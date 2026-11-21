@@ -7,4 +7,13 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomInteger, getRandomArrayElement};
+const createIdGenerator = () => {
+  let lastId = 0;
+
+  return () => {
+    lastId += 1;
+    return lastId;
+  };
+};
+
+export {getRandomInteger, getRandomArrayElement, createIdGenerator};
