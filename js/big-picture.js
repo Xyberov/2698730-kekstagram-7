@@ -50,6 +50,18 @@ const renderNextComments = () => {
   commentsLoaderElement.classList.toggle('hidden', shownCommentsCount >= currentComments.length);
 };
 
+const fillBigPicture = (picture) => {
+  bigPictureImageElement.src = picture.url;
+  likesCountElement.textContent = picture.likes;
+  commentsCountElement.textContent = picture.comments.length;
+  captionElement.textContent = picture.description;
+
+  commentsListElement.innerHTML = '';
+  currentComments = picture.comments;
+  shownCommentsCount = 0;
+  renderNextComments();
+};
+
 const onCommentsLoaderClick = () => {
   renderNextComments();
 };
@@ -73,18 +85,6 @@ function onDocumentKeydown(evt) {
 function onCancelButtonClick() {
   closeBigPicture();
 }
-
-const fillBigPicture = (picture) => {
-  bigPictureImageElement.src = picture.url;
-  likesCountElement.textContent = picture.likes;
-  commentsCountElement.textContent = picture.comments.length;
-  captionElement.textContent = picture.description;
-
-  commentsListElement.innerHTML = '';
-  currentComments = picture.comments;
-  shownCommentsCount = 0;
-  renderNextComments();
-};
 
 const openBigPicture = (picture) => {
   fillBigPicture(picture);
