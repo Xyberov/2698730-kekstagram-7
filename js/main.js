@@ -1,5 +1,6 @@
 import {createPhoto} from './create-photo.js';
 import {renderPictures} from './pictures.js';
+import './upload-form.js';
 
 const PHOTOS_COUNT = 25;
 
