@@ -1,3 +1,6 @@
+import {initScale, destroyScale} from './scale.js';
+import {initEffects, destroyEffects} from './effects.js';
+
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_DESCRIPTION_LENGTH = 140;
@@ -67,6 +70,8 @@ const closeUploadForm = () => {
   document.body.classList.remove('modal-open');
   uploadFormElement.reset();
   pristine.reset();
+  destroyScale();
+  destroyEffects();
 
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancelElement.removeEventListener('click', onUploadCancelClick);
@@ -94,6 +99,9 @@ function onUploadFormSubmit(evt) {
 }
 
 const openUploadForm = () => {
+  initScale();
+  initEffects();
+
   uploadOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
