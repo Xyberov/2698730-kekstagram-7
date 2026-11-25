@@ -18,25 +18,11 @@ const previewImageElement = document.querySelector('.img-upload__preview img');
 
 let currentEffect = effectToSettings[DEFAULT_EFFECT];
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: currentEffect.min,
-    max: currentEffect.max,
-  },
-  start: currentEffect.max,
-  step: currentEffect.step,
-  connect: 'lower',
-  format: {
-    to: (value) => Number(value.toFixed(LEVEL_PRECISION)),
-    from: (value) => parseFloat(value),
-  },
-});
-
 const isDefaultEffect = () => currentEffect === effectToSettings[DEFAULT_EFFECT];
 
 const applyEffect = () => {
   const level = sliderElement.noUiSlider.get();
-  effectLevelValueElement.value = level;
+  effectLevelValueElement.setAttribute('value', level);
   previewImageElement.style.filter = isDefaultEffect() ? '' : `${currentEffect.filter}(${level}${currentEffect.unit})`;
 };
 
@@ -54,20 +40,42 @@ const setEffect = (effectName) => {
   });
 };
 
-sliderElement.noUiSlider.on('update', applyEffect);
+const createSlider = () => {
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: currentEffect.min,
+      max: currentEffect.max,
+    },
+    start: currentEffect.max,
+    step: currentEffect.step,
+    connect: 'lower',
+    format: {
+      to: (value) => Number(value.toFixed(LEVEL_PRECISION)),
+      from: (value) => parseFloat(value),
+    },
+  });
+
+  sliderElement.noUiSlider.on('update', applyEffect);
+};
 
 const onEffectsListChange = (evt) => {
   setEffect(evt.target.value);
 };
 
 const initEffects = () => {
-  setEffect(DEFAULT_EFFECT);
+  currentEffect = effectToSettings[DEFAULT_EFFECT];
+  createSlider();
+  effectLevelElement.classList.add('hidden');
   effectsListElement.addEventListener('change', onEffectsListChange);
 };
 
 const destroyEffects = () => {
-  setEffect(DEFAULT_EFFECT);
   effectsListElement.removeEventListener('change', onEffectsListChange);
+  sliderElement.noUiSlider.destroy();
+
+  currentEffect = effectToSettings[DEFAULT_EFFECT];
+  previewImageElement.style.filter = '';
+  effectLevelElement.classList.add('hidden');
 };
 
 export {initEffects, destroyEffects};

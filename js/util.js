@@ -1,7 +1,7 @@
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const getRandomInteger = (rangeStart, rangeEnd) => {
+  const lowerBound = Math.ceil(Math.min(rangeStart, rangeEnd));
+  const upperBound = Math.floor(Math.max(rangeStart, rangeEnd));
+  const result = Math.random() * (upperBound - lowerBound + 1) + lowerBound;
   return Math.floor(result);
 };
 
