@@ -13,7 +13,7 @@ let currentScale = DEFAULT_SCALE;
 
 const setScale = (value) => {
   currentScale = value;
-  scaleValueElement.value = `${value}%`;
+  scaleValueElement.setAttribute('value', `${value}%`);
   previewImageElement.style.transform = `scale(${value / PERCENT_DIVIDER})`;
 };
 
